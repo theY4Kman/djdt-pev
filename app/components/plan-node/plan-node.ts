@@ -1,7 +1,8 @@
+import {Component} from '@angular/core';
+import * as _ from 'lodash';
+
 import {IPlan} from '../../interfaces/iplan';
-import {Component, OnInit} from 'angular2/core';
 import {HighlightType, EstimateDirection, ViewMode} from '../../enums';
-import {DurationPipe, DurationUnitPipe} from '../../pipes';
 
 import {PlanService} from '../../services/plan-service';
 import {SyntaxHighlightService} from '../../services/syntax-highlight-service';
@@ -13,10 +14,8 @@ import {ColorService} from '../../services/color-service';
 @Component({
     selector: 'plan-node',
     inputs: ['plan', 'node', 'viewOptions'],
-    templateUrl: './components/plan-node/plan-node.html',
-    directives: [PlanNode],
+    templateUrl: './plan-node.html',
     providers: [PlanService, SyntaxHighlightService, HelpService, ColorService],
-    pipes: [DurationPipe, DurationUnitPipe]
 })
 
 export class PlanNode {
@@ -39,6 +38,7 @@ export class PlanNode {
 
     // UI flags
     showDetails: boolean;
+    showQuery: boolean;
 
     // calculated properties
     executionTimePercent: number;

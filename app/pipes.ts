@@ -1,5 +1,6 @@
-import {Pipe} from 'angular2/core';
-/// <reference path="moment.d.ts" />
+import {Pipe} from '@angular/core';
+import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Pipe({ name: 'momentDate' })
 export class MomentDatePipe {

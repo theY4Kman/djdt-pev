@@ -1,22 +1,24 @@
-import {Component, OnInit} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Component} from '@angular/core';
 
 import {IPlan} from '../../interfaces/iplan';
 import {HighlightType, ViewMode} from '../../enums';
-import {PlanNode} from '../plan-node/plan-node';
 import {PlanService} from '../../services/plan-service';
 import {SyntaxHighlightService} from '../../services/syntax-highlight-service';
-import {DurationPipe, DurationUnitPipe} from '../../pipes';
+
+declare global {
+  interface Window {
+    DJDT_PLAN_CONTENT: string,
+    DJDT_PLAN_NAME: string,
+    DJDT_PLAN_QUERY: string,
+  }
+}
 
 @Component({
     selector: 'plan-view',
-    templateUrl: './components/plan-view/plan-view.html',
-    directives: [ROUTER_DIRECTIVES, PlanNode],
+    templateUrl: './plan-view.html',
     providers: [PlanService, SyntaxHighlightService],
-    pipes: [DurationPipe, DurationUnitPipe]
 })
 export class PlanView {
-    id: string;
     plan: IPlan;
     rootContainer: any;
     hideMenu: boolean = true;
@@ -36,16 +38,14 @@ export class PlanView {
     highlightTypes = HighlightType; // exposing the enum to the view
     viewModes = ViewMode;
 
-    constructor(private _planService: PlanService, routeParams: RouteParams) {
-        this.id = routeParams.get('id');
-    }
+    constructor(private _planService: PlanService) {}
 
     getPlan() {
-        if (!this.id) {
-            return;
-        }
+        const planContent = this.getDomText('djdt-pev-plan-content');
+        const planName = this.getDomText('djdt-pev-plan-name');
+        const planQuery = this.getDomText('djdt-pev-plan-query');
 
-        this.plan = this._planService.getPlan(this.id);
+        this.plan = this._planService.createPlan(planName, planContent, planQuery);
         this.rootContainer = this.plan.content;
         this.plan.planStats = {
             executionTime: this.rootContainer['Execution Time'] || this.rootContainer['Total Runtime'],
@@ -54,6 +54,10 @@ export class PlanView {
             maxCost: this.rootContainer[this._planService.MAXIMUM_COSTS_PROP] || 0,
             maxDuration: this.rootContainer[this._planService.MAXIMUM_DURATION_PROP] || 0
         };
+    }
+
+    getDomText(id: string) {
+      return document.getElementById(id).innerText;
     }
 
     ngOnInit() {

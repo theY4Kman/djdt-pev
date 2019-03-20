@@ -1,3 +1,13 @@
+function hue2rgb(p: number, q: number, t: number) {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+  if (t < 1 / 6) return p + (q - p) * 6 * t;
+  if (t < 1 / 2) return q;
+  if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+  return p;
+}
+
+
 export class ColorService {
        /**
         * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
@@ -7,25 +17,17 @@ export class ColorService {
         * Assumes h, s, and l are contained in the set [0, 1] and
         * returns r, g, and b in the set [0, 255].
         *
-        * @param   Number  h       The hue
-        * @param   Number  s       The saturation
-        * @param   Number  l       The lightness
+        * @param   h{Number}       The hue
+        * @param   s{Number}       The saturation
+        * @param   l{Number}       The lightness
         * @return  Array           The RGB representation
         */
-       hslToRgb(h, s, l) {
+       hslToRgb(h: number, s: number, l: number) {
            var r, g, b;
 
            if (s === 0) {
                r = g = b = l; // achromatic
            } else {
-               function hue2rgb(p, q, t) {
-                   if (t < 0) t += 1;
-                   if (t > 1) t -= 1;
-                   if (t < 1 / 6) return p + (q - p) * 6 * t;
-                   if (t < 1 / 2) return q;
-                   if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                   return p;
-               }
 
                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                var p = 2 * l - q;
@@ -38,7 +40,7 @@ export class ColorService {
        }
 
        // convert a number to a color using hsl
-       numberToColorHsl(i) {
+       numberToColorHsl(i: number) {
            // as the function expects a value between 0 and 1, and red = 0° and green = 120°
            // we convert the input to the appropriate hue value
            var hue = i * 100 * 1.2 / 360;

@@ -39,12 +39,7 @@
 </div>
 
 <div class="page page-stretch">
-   <h2><span *ngIf="!editName">{{plan.name}}</span>
-      <input *ngIf="editName" class="input-box input-box-main" type="text" [(ngModel)]="plan.name">
-      <button class="btn btn-link btn-lg" (click) = "editName = !editName">
-         <i class="fa fa-pencil"></i>
-      </button>
-   </h2>
+   <h2><span>{{plan.name}}</span></h2>
 
    <div *ngIf="viewOptions.showPlanStats" class="plan-stats">
       <div>

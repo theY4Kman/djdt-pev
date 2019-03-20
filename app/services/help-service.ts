@@ -1,5 +1,3 @@
-/// <reference path="lodash.d.ts" />
-
 export class HelpService {
    getNodeTypeDescription(nodeType: string) {
       return NODE_DESCRIPTIONS[nodeType.toUpperCase()];

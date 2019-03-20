@@ -1,5 +1,6 @@
-/// <reference path="highlight.d.ts" />
-/// <reference path="lodash.d.ts" />
+import * as _ from 'lodash';
+import * as hljs from 'highlight.js';
+import {HLJSStatic} from "highlight.js";
 
 export class SyntaxHighlightService {
     OPEN_TAG: string = ' _OPEN_TAG_';
@@ -27,7 +28,7 @@ export class SyntaxHighlightService {
     }
 }
 
-export var LANG_SQL = function(hljs) {
+export var LANG_SQL = function(hljs: HLJSStatic) {
     var COMMENT_MODE = hljs.COMMENT('--', '$');
     return {
         case_insensitive: true,

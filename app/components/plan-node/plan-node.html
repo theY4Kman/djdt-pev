@@ -41,7 +41,7 @@
    </div>
 
    <div class="tags" *ngIf="viewOptions.showTags && tags.length > 0">
-      <span *ngFor="#tag of tags">{{getTagName(tag)}}</span>
+      <span *ngFor="let tag of tags">{{getTagName(tag)}}</span>
    </div>
 
    <div *ngIf="currentHighlightType !== highlightTypes.NONE">
@@ -65,7 +65,7 @@
       </div>
 
       <table class="table prop-list">
-         <tr *ngFor="#prop of props">
+         <tr *ngFor="let prop of props">
             <td width="40%">{{prop.key}}</td>
             <td>{{prop.value}}</td>
          <tr>
@@ -83,7 +83,7 @@
 </div>
 
 <ul *ngIf="node.Plans">
-  <li *ngFor="#subNode of node.Plans">
-    <plan-node [plan]="plan" [node]="subNode" [viewOptions]="viewOptions" [planStats]="planStats"></plan-node>
+  <li *ngFor="let subNode of node.Plans">
+    <plan-node [plan]="plan" [node]="subNode" [viewOptions]="viewOptions"></plan-node>
   </li>
 </ul>

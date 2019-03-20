@@ -37,3 +37,7 @@ lib
 test
 tools/typings/tsd
 tmp
+
+# Python
+*.pyc
+*.egg-info/

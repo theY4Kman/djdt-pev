@@ -1,5 +1,9 @@
+import * as moment from 'moment';
+import * as _ from 'lodash';
+
 import {IPlan} from '../interfaces/iplan';
 import {EstimateDirection} from '../enums';
+
 /// <reference path="moment.d.ts" />
 /// <reference path="lodash.d.ts" />
 
@@ -56,30 +60,34 @@ export class PlanService {
             }
         }
 
-        return _.chain(plans)
-        .sortBy('createdOn')
-        .reverse()
-        .value();
+        return (
+          _.chain(plans)
+            .sortBy('createdOn')
+            .reverse()
+            .value()
+        );
     }
 
     getPlan(id: string): IPlan {
         return JSON.parse(localStorage.getItem(id));
     }
 
-    createPlan(planName: string, planContent: string, planQuery): IPlan {
+    createPlan(planName: string, planContent: string, planQuery: string): IPlan {
         var plan: IPlan = {
             id: this.PEV_PLAN_TAG + new Date().getTime().toString(),
             name: planName || 'plan created on ' + moment().format('LLL'),
             createdOn: new Date(),
             content: JSON.parse(planContent)[0],
-            query: planQuery
+            query: planQuery,
+            planStats: null,
+            formattedQuery: "",
         };
 
         this.analyzePlan(plan);
         return plan;
     }
 
-    isJsonString(str) {
+    isJsonString(str: string) {
         try {
             JSON.parse(str);
         } catch (e) {
@@ -108,7 +116,7 @@ export class PlanService {
     }
 
     // recursively walk down the plan to compute various metrics
-    processNode(node) {
+    processNode(node: {Plans: IPlan[]}) {
         this.calculatePlannerEstimate(node);
         this.calculateActuals(node);
 
@@ -123,7 +131,7 @@ export class PlanService {
         });
     }
 
-    calculateMaximums(node, key, value) {
+    calculateMaximums(node: object, key: string, value: any) {
         if (key === this.ACTUAL_ROWS_PROP && this._maxRows < value) {
             this._maxRows = value;
         }
@@ -136,7 +144,7 @@ export class PlanService {
         }
     }
 
-    findOutlierNodes(node) {
+    findOutlierNodes(node: object) {
         node[this.SLOWEST_NODE_PROP] = false;
         node[this.LARGEST_NODE_PROP] = false;
         node[this.COSTLIEST_NODE_PROP] = false;
@@ -161,13 +169,14 @@ export class PlanService {
     }
 
     // actual duration and actual cost are calculated by subtracting child values from the total
-    calculateActuals(node) {
+    calculateActuals(node: {Plans: IPlan[]}) {
         node[this.ACTUAL_DURATION_PROP] = node[this.ACTUAL_TOTAL_TIME_PROP];
         node[this.ACTUAL_COST_PROP] = node[this.TOTAL_COST_PROP];
 
         console.log (node);
+
         _.each(node.Plans, subPlan => {
-           console.log('processing chldren', subPlan)
+           console.log('processing chldren', subPlan);
            // since CTE scan duration is already included in its subnodes, it should be be
            // subtracted from the duration of this node
             if (subPlan[this.NODE_TYPE_PROP] !== this.CTE_SCAN_PROP) {
@@ -186,7 +195,7 @@ export class PlanService {
 
     // figure out order of magnitude by which the planner mis-estimated how many rows would be
     // invloved in this node
-    calculatePlannerEstimate(node) {
+    calculatePlannerEstimate(node: object) {
         node[this.PLANNER_ESTIMATE_FACTOR] = node[this.ACTUAL_ROWS_PROP] / node[this.PLAN_ROWS_PROP];
         node[this.PLANNER_ESIMATE_DIRECTION] = EstimateDirection.under;
 
