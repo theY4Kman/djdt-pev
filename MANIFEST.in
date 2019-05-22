@@ -1,0 +1,2 @@
+recursive-include djdt_pev/static *
+recursive-include djdt_pev/templates *

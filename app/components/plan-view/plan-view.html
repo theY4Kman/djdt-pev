@@ -38,7 +38,7 @@
    </ul>
 </div>
 
-<div class="page page-stretch">
+<div class="page page-stretch" *ngIf="plan">
    <h2><span>{{plan.name}}</span></h2>
 
    <div *ngIf="viewOptions.showPlanStats" class="plan-stats">

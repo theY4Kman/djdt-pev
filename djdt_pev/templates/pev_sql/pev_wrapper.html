@@ -1,0 +1,9 @@
+{% load i18n %}{% load static %}
+<script type="application/json" id="djdt-pev-plan-content">{{ plan_content|safe }}</script>
+<script type="application/json" id="djdt-pev-plan-name">{{ plan_name }}</script>
+<script type="application/json" id="djdt-pev-plan-query">{{ plan_query }}</script>
+
+<script src="{% static 'pev_sql/js/shim.js' %}"></script>
+
+
+<iframe src="{% url 'djdt:pev' %}" frameborder="0" style="height: 100%; width: 100%;"></iframe>

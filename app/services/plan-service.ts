@@ -7,6 +7,11 @@ import {EstimateDirection} from '../enums';
 /// <reference path="moment.d.ts" />
 /// <reference path="lodash.d.ts" />
 
+type Node = {
+  Plans?: IPlan[],
+  [prop: string]: any,
+}
+
 export class PlanService {
     // plan property keys
     NODE_TYPE_PROP: string = 'Node Type';
@@ -116,7 +121,7 @@ export class PlanService {
     }
 
     // recursively walk down the plan to compute various metrics
-    processNode(node: {Plans: IPlan[]}) {
+    processNode(node: Node) {
         this.calculatePlannerEstimate(node);
         this.calculateActuals(node);
 
@@ -131,7 +136,7 @@ export class PlanService {
         });
     }
 
-    calculateMaximums(node: object, key: string, value: any) {
+    calculateMaximums(node: Node, key: string, value: any) {
         if (key === this.ACTUAL_ROWS_PROP && this._maxRows < value) {
             this._maxRows = value;
         }
@@ -144,7 +149,7 @@ export class PlanService {
         }
     }
 
-    findOutlierNodes(node: object) {
+    findOutlierNodes(node: Node) {
         node[this.SLOWEST_NODE_PROP] = false;
         node[this.LARGEST_NODE_PROP] = false;
         node[this.COSTLIEST_NODE_PROP] = false;
@@ -169,7 +174,7 @@ export class PlanService {
     }
 
     // actual duration and actual cost are calculated by subtracting child values from the total
-    calculateActuals(node: {Plans: IPlan[]}) {
+    calculateActuals(node: Node) {
         node[this.ACTUAL_DURATION_PROP] = node[this.ACTUAL_TOTAL_TIME_PROP];
         node[this.ACTUAL_COST_PROP] = node[this.TOTAL_COST_PROP];
 

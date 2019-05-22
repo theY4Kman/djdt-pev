@@ -1,16 +1,20 @@
+const path = require('path');
+
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const helpers = require('./config/helpers');
 
 
+const APP_DIR = path.resolve(__dirname, "app");
+
+
 module.exports = {
   entry: {
-    'polyfills': './app/polyfills.ts',
-    'vendor': './app/vendor.ts',
-    'app': './app/app.ts',
-    'bootstrap': './app/bootstrap.ts',
-    'styles': './app/assets/styles.css'
+    'polyfills': path.resolve(APP_DIR, 'polyfills.ts'),
+    'vendor': path.resolve(APP_DIR, 'vendor.ts'),
+    'bootstrap': path.resolve(APP_DIR, 'bootstrap.ts'),
+    'styles': path.resolve(APP_DIR, 'assets/css/styles.css'),
   },
 
   resolve: {

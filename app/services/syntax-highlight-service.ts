@@ -28,14 +28,14 @@ export class SyntaxHighlightService {
     }
 }
 
-export var LANG_SQL = function(hljs: HLJSStatic) {
-    var COMMENT_MODE = hljs.COMMENT('--', '$');
+export var LANG_SQL = function(hljsStatic: HLJSStatic): hljs.IMode {
+    var COMMENT_MODE = hljs.COMMENT('--', '$', {});
     return {
         case_insensitive: true,
-        illegal: /[<>{}*]/,
+        illegal: '[<>{}*]',
         contains: [
             {
-                beginKeywords:
+                beginKeyword:
                 'begin end start commit rollback savepoint lock alter create drop rename call ' +
                 'delete do handler insert load replace select truncate update set show pragma grant ' +
                 'merge describe use explain help declare prepare execute deallocate release ' +
@@ -164,24 +164,24 @@ export var LANG_SQL = function(hljs: HLJSStatic) {
                     {
                         className: 'string',
                         begin: '\'', end: '\'',
-                        contains: [hljs.BACKSLASH_ESCAPE, { begin: '\'\'' }]
+                        contains: [hljsStatic.BACKSLASH_ESCAPE, { begin: '\'\'' }]
                     },
                     {
                         className: 'string',
                         begin: '"', end: '"',
-                        contains: [hljs.BACKSLASH_ESCAPE, { begin: '""' }]
+                        contains: [hljsStatic.BACKSLASH_ESCAPE, { begin: '""' }]
                     },
                     {
                         className: 'string',
                         begin: '`', end: '`',
-                        contains: [hljs.BACKSLASH_ESCAPE]
+                        contains: [hljsStatic.BACKSLASH_ESCAPE]
                     },
-                    hljs.C_NUMBER_MODE,
-                    hljs.C_BLOCK_COMMENT_MODE,
+                    hljsStatic.C_NUMBER_MODE,
+                    hljsStatic.C_BLOCK_COMMENT_MODE,
                     COMMENT_MODE
                 ]
             },
-            hljs.C_BLOCK_COMMENT_MODE,
+            hljsStatic.C_BLOCK_COMMENT_MODE,
             COMMENT_MODE
         ]
     };

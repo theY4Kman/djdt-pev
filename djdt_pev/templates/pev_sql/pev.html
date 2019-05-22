@@ -1,13 +1,14 @@
 {% load i18n %}{% load static %}
-<link rel="stylesheet" href="{% static 'pev_sql/css/styles.css' %}">
+<html>
+  <head>
+    <title>PEV</title>
+    <link rel="stylesheet" href="{% static 'pev_sql/css/styles.css' %}">
+  </head>
+  <body>
+    <app id="djdt-pev">Loading...</app>
 
-<script type="application/json" id="djdt-pev-plan-content">{{ plan_content|safe }}</script>
-<script type="application/json" id="djdt-pev-plan-name">{{ plan_name }}</script>
-<script type="application/json" id="djdt-pev-plan-query">{{ plan_query }}</script>
-
-
-<app>Loading...</app>
-
-<script type="text/javascript" src="{% static 'pev_sql/js/bootstrap.js' %}"></script>
-
-<script src="{% static 'debug_toolbar/js/toolbar.sql.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pev_sql/js/polyfills.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pev_sql/js/vendor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pev_sql/js/bootstrap.js' %}"></script>
+  </body>
+</html>

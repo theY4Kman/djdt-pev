@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 
 import {IPlan} from '../../interfaces/iplan';
 import {HighlightType, ViewMode} from '../../enums';
@@ -38,26 +38,32 @@ export class PlanView {
     highlightTypes = HighlightType; // exposing the enum to the view
     viewModes = ViewMode;
 
-    constructor(private _planService: PlanService) {}
+    constructor(private _planService: PlanService, private zone: NgZone) {}
 
     getPlan() {
-        const planContent = this.getDomText('djdt-pev-plan-content');
-        const planName = this.getDomText('djdt-pev-plan-name');
-        const planQuery = this.getDomText('djdt-pev-plan-query');
+        window.addEventListener('message', event => {
+            if (event.origin !== location.origin) {
+                return;
+            }
 
-        this.plan = this._planService.createPlan(planName, planContent, planQuery);
-        this.rootContainer = this.plan.content;
-        this.plan.planStats = {
-            executionTime: this.rootContainer['Execution Time'] || this.rootContainer['Total Runtime'],
-            planningTime: this.rootContainer['Planning Time'] || 0,
-            maxRows: this.rootContainer[this._planService.MAXIMUM_ROWS_PROP] || 0,
-            maxCost: this.rootContainer[this._planService.MAXIMUM_COSTS_PROP] || 0,
-            maxDuration: this.rootContainer[this._planService.MAXIMUM_DURATION_PROP] || 0
-        };
-    }
+            if (event.data && event.data.method === 'getPlan') {
+                this.zone.run(() => {
+                    const {planContent, planName, planQuery} = event.data.rval;
 
-    getDomText(id: string) {
-      return document.getElementById(id).innerText;
+                    this.plan = this._planService.createPlan(planName, planContent, planQuery);
+                    this.rootContainer = this.plan.content;
+                    this.plan.planStats = {
+                      executionTime: this.rootContainer['Execution Time'] || this.rootContainer['Total Runtime'],
+                      planningTime: this.rootContainer['Planning Time'] || 0,
+                      maxRows: this.rootContainer[this._planService.MAXIMUM_ROWS_PROP] || 0,
+                      maxCost: this.rootContainer[this._planService.MAXIMUM_COSTS_PROP] || 0,
+                      maxDuration: this.rootContainer[this._planService.MAXIMUM_DURATION_PROP] || 0
+                    };
+                })
+            }
+        });
+
+        window.parent.postMessage({method: 'getPlan'}, location.origin);
     }
 
     ngOnInit() {
