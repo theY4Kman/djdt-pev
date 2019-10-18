@@ -6,20 +6,9 @@
     "url": "http://www.tatiyants.com"
   },
   "scripts": {
-    "build.dev": "gulp build.dev",
-    "build.dev.watch": "gulp build.dev.watch",
-    "build.prod": "gulp build.prod --env prod",
-    "build.test": "gulp build.test",
-    "build.test.watch": "gulp build.test.watch",
-    "docs": "npm run gulp -- build.docs && npm run gulp -- serve.docs",
-    "gulp": "gulp",
-    "karma": "karma",
-    "karma.start": "karma start",
+    "build.dev": "webpack --progress",
+    "build.prod": "webpack --production --progress",
     "lint": "gulp tslint",
-    "start": "gulp serve --env dev",
-    "serve.dev": "gulp serve --env dev",
-    "tasks.list": "gulp --tasks-simple",
-    "test": "gulp test",
     "tsd": "tsd"
   },
   "author": "Alex Tatiyants",

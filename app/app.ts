@@ -4,7 +4,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 
 import {App} from './components/app/app';
-import {About} from "./components/about/about";
 import {PlanNode} from "./components/plan-node/plan-node";
 import {PlanView} from "./components/plan-view/plan-view";
 import {ColorService} from "./services/color-service";
@@ -16,7 +15,6 @@ import {DurationPipe, DurationUnitPipe, MomentDatePipe} from "./pipes";
 
 const routes: Routes = [
   { path: '', component: PlanView },
-  { path: 'about', component: About }
 ];
 
 
@@ -28,7 +26,6 @@ const routes: Routes = [
   ],
   declarations: [
     App,
-    About,
     PlanNode,
     PlanView,
     DurationPipe,

@@ -38,7 +38,7 @@ def sql_pev(request):
 
     context = {
         'plan_content': json.dumps(plan),
-        'plan_name': 'Test', #XXX######################################################################################
+        'plan_name': 'Test',
         'plan_query': sql,
         'base': request.path,
     }

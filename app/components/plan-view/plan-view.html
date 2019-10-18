@@ -39,8 +39,6 @@
 </div>
 
 <div class="page page-stretch" *ngIf="plan">
-   <h2><span>{{plan.name}}</span></h2>
-
    <div *ngIf="viewOptions.showPlanStats" class="plan-stats">
       <div>
          <span class="stat-value">{{plan.planStats.executionTime | duration}}</span>

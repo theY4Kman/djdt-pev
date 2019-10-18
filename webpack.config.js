@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 
 const webpack = require('webpack');
@@ -29,7 +31,8 @@ module.exports = {
           {
             loader: 'awesome-typescript-loader',
             options: { configFileName: helpers.root('tsconfig.json') }
-          } , 'angular2-template-loader'
+          },
+          'angular2-template-loader'
         ]
       },
       {
@@ -37,8 +40,12 @@ module.exports = {
         loader: 'html-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        loader: 'file-loader?name=assets/[name].[hash].[ext]'
+        test: /\.(png|jpe?g|gif|svg|ico)$/,
+        loader: 'file-loader?name=../img/[name].[ext]'
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot)$/,
+        loader: 'file-loader?name=../fonts/[name].[ext]'
       },
       // {
       //   test: /\.scss$/,
@@ -58,7 +65,7 @@ module.exports = {
           "css-loader"
         ]
       }
-    ]
+    ],
   },
 
   plugins: [
@@ -79,8 +86,22 @@ module.exports = {
       // both options are optional
       filename: "[name].css",
       chunkFilename: "[id].css"
-    })
+    }),
 
+    new webpack.LoaderOptionsPlugin({
+      // test: /\.xxx$/, // may apply this only for some modules
+      options: {
+        htmlLoader: {
+          // <a href=http://domain.com/>test</a> may get treated as a self-closing tag,
+          //   with an unexpected </a> closing tag. So, we keep all attr quotes.
+          removeAttributeQuotes: false,
+
+          // ngIf is case-sensitive, and will not work if translated to ngif.
+          // So, we keep original casing of attributes.
+          caseSensitive: true,
+        }
+      }
+    })
   ],
 
   output: {

@@ -4,11 +4,24 @@
     <title>PEV</title>
     <link rel="stylesheet" href="{% static 'pev_sql/css/styles.css' %}">
   </head>
-  <body>
+  <body id="djdt-pev-body">
     <app id="djdt-pev">Loading...</app>
 
     <script type="text/javascript" src="{% static 'pev_sql/js/polyfills.js' %}"></script>
     <script type="text/javascript" src="{% static 'pev_sql/js/vendor.js' %}"></script>
     <script type="text/javascript" src="{% static 'pev_sql/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pev_sql/js/grab-to-pan.js' %}"></script>
+    <script type="text/javascript">
+      const container = document.getElementById('djdt-pev-body');
+      const grabToPan = new GrabToPan({
+        element: container,
+        onActiveChanged: function(isActive) { // optional
+          if (window.console) { // IE doesn't define console unless the devtools are open
+            console.log('Grab-to-pan is ' + (isActive ? 'activated' : 'deactivated'));
+          }
+        }
+      });
+      grabToPan.activate();
+    </script>
   </body>
 </html>
