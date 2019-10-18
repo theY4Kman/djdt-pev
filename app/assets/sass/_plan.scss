@@ -14,6 +14,12 @@ $connector-line: 2px solid darken($line-color, 10%);
 		transition: all 0.5s;
       margin-top: -5px;
 
+    &.hide-children {
+      &, & ul {
+        visibility: hidden;
+      }
+    }
+
 		// vertical connector
 		ul::before {
 			content: '';

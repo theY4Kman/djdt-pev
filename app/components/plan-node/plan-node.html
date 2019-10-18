@@ -82,7 +82,13 @@
    </div>
 </div>
 
-<ul *ngIf="node.Plans">
+<div *ngIf="node.Plans">
+  <button (click)="showChildren = !showChildren">
+    {{ showChildren ? 'Hide' : 'Show' }} children
+  </button>
+</div>
+
+<ul *ngIf="node.Plans" [style.visibility]="showChildren ? 'inherit' : 'hidden'">
   <li *ngFor="let subNode of node.Plans">
     <plan-node [plan]="plan" [node]="subNode" [viewOptions]="viewOptions"></plan-node>
   </li>

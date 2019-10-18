@@ -39,6 +39,7 @@ export class PlanNode {
     // UI flags
     showDetails: boolean;
     showQuery: boolean;
+    showChildren: boolean = true;
 
     // calculated properties
     executionTimePercent: number;
