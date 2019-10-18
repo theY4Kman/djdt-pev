@@ -4,7 +4,7 @@ $menu-toggle-height: 45px;
 .menu {
    width: 190px;
    height: 260px;
-   position: absolute;
+   position: fixed;
    font-size: $font-size-sm;
    top: $menu-offset - 5;
    left: 0;

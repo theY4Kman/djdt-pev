@@ -12,6 +12,8 @@ import {PlanService} from "./services/plan-service";
 import {SyntaxHighlightService} from "./services/syntax-highlight-service";
 import {DurationPipe, DurationUnitPipe, MomentDatePipe} from "./pipes";
 
+import './assets/sass/styles.scss';
+
 
 const routes: Routes = [
   { path: '', component: PlanView },

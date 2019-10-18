@@ -16,7 +16,6 @@ module.exports = {
     'polyfills': path.resolve(APP_DIR, 'polyfills.ts'),
     'vendor': path.resolve(APP_DIR, 'vendor.ts'),
     'bootstrap': path.resolve(APP_DIR, 'bootstrap.ts'),
-    'styles': path.resolve(APP_DIR, 'assets/css/styles.css'),
   },
 
   resolve: {
@@ -40,23 +39,6 @@ module.exports = {
         loader: 'html-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|ico)$/,
-        loader: 'file-loader?name=../img/[name].[ext]'
-      },
-      {
-        test: /\.(woff|woff2|ttf|eot)$/,
-        loader: 'file-loader?name=../fonts/[name].[ext]'
-      },
-      // {
-      //   test: /\.scss$/,
-      //   use: [
-      //       "style-loader", // creates style nodes from JS strings
-      //       "css-loader", // translates CSS into CommonJS
-      //       "sass-loader" // compiles Sass to CSS, using Node Sass by default
-      //   ]
-      // },
-
-      {
         test: /\.css$/,
         use: [
           {
@@ -64,7 +46,23 @@ module.exports = {
           },
           "css-loader"
         ]
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|ico)(\?.*$|$)/,
+        loader: 'file-loader?name=../img/[name].[ext]'
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot)(\?.*$|$)/,
+        loader: 'file-loader?name=../fonts/[name].[ext]'
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ]
+      },
     ],
   },
 
@@ -84,7 +82,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: "[name].css",
+      filename: "../css/[name].css",
       chunkFilename: "[id].css"
     }),
 
