@@ -1,6 +1,6 @@
 <div class="menu" [class.menu-hidden]="hideMenu">
    <header>
-      <i class="fa fa-cogs menu-toggle" (click)="hideMenu = !hideMenu"></i>
+      <i class="fa menu-toggle" [class.fa-cogs]="hideMenu" [class.fa-chevron-left]="!hideMenu" (click)="hideMenu = !hideMenu"></i>
       <h3>display options</h3>
    </header>
 

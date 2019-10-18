@@ -3,6 +3,7 @@ $connector-line: 2px solid darken($line-color, 10%);
 
 .plan {
 	padding-bottom: $padding-lg * 3;
+  padding-top: $padding-lg * 6;
    margin-left: 100px;
 
 	ul {
@@ -83,8 +84,13 @@ $connector-line: 2px solid darken($line-color, 10%);
    padding-bottom: $padding-lg;
    border-bottom: 1px solid $line-color;
    border-radius: $border-radius-lg*2;
-   width: 650px;
-   position: relative;
+   $width: 650px;
+   width: $width;
+   position: fixed;
+   left: calc((100% - #{$width}) / 2);
+   z-index: 1;
+
+   background-color: rgba($bg-color, 0.8);
 
    div {
       padding-right: $padding-lg;

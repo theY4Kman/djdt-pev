@@ -17,13 +17,12 @@ $menu-toggle-height: 45px;
 
    header {
       h3 {
-         padding-top: $padding-lg;
-         margin-bottom: $padding-base;
+         padding-top: $padding-base;
+         margin-bottom: $padding-lg;
          font-size: round($font-size-base * 1.2);
          font-weight: 600;
          line-height: 2;
-         text-align: right;
-         padding-right: $padding-lg * 2;
+         text-align: center;
       }
    }
 
